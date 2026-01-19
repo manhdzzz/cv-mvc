@@ -1,0 +1,183 @@
+﻿@model trangcv.Models.CVModel
+@{
+    ViewData["Title"] = "CV - " + Model.HoTen;
+    var nckh = ViewBag.NCKHList as List<trangcv.Models.ResearchProject> ?? new List<trangcv.Models.ResearchProject>();
+    var projects = ViewBag.ProjectList as List<trangcv.Models.Project> ?? new List<trangcv.Models.Project>();
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Hero Section - Thông tin cá nhân -->
+<section class="cv-hero">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+                <div class="avatar-wrapper">
+                    <img src="@Model.AnhDaiDien" alt="Avatar" class="avatar-img" onerror="this.src='https://via.placeholder.com/200x200?text=Avatar'">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h1 class="hero-name">@Model.HoTen</h1>
+                <div class="hero-info">
+                    <span class="badge bg-primary me-2"><i class="fas fa-id-card me-1"></i>@Model.MSSV</span>
+                    <span class="badge bg-secondary me-2"><i class="fas fa-calendar me-1"></i>@Model.NgaySinh</span>
+                    <span class="badge bg-info"><i class="fas fa-users me-1"></i>@Model.Lop</span>
+                </div>
+                <p class="hero-department"><i class="fas fa-university me-2"></i>@Model.Khoa</p>
+                <p class="hero-intro">@Model.GioiThieu</p>
+                <div class="hero-contact">
+                    <a href="mailto:@Model.Email" class="contact-link"><i class="fas fa-envelope"></i> @Model.Email</a>
+                    <a href="tel:@Model.SoDienThoai" class="contact-link"><i class="fas fa-phone"></i> @Model.SoDienThoai</a>
+                    <span class="contact-link"><i class="fas fa-map-marker-alt"></i> @Model.DiaChi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="cv-body">
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-4">
+            <!-- Học vấn -->
+            <section class="cv-section">
+                <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Học Vấn</h2>
+                <div class="info-card">
+                    <h5><i class="fas fa-school text-primary me-2"></i>@Model.TruongDaoTao</h5>
+                    <p class="mb-2"><strong>Ngành:</strong> @Model.NganhHoc</p>
+                    <p class="mb-2"><strong>GPA:</strong> <span class="badge bg-success">@Model.GPA</span></p>
+                    @if (Model.GetChungChiList().Any())
+                    {
+                        <div class="mt-3">
+                            <strong><i class="fas fa-certificate text-warning me-1"></i> Chứng chỉ:</strong>
+                            <ul class="certificate-list">
+                                @foreach (var cert in Model.GetChungChiList())
+                                {
+                                    <li>@cert</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- Kỹ năng -->
+            <section class="cv-section">
+                <h2 class="section-title"><i class="fas fa-tools"></i> Kỹ Năng</h2>
+                
+                <div class="skill-category">
+                    <h6><i class="fas fa-code text-info me-2"></i>Kỹ năng chuyên môn</h6>
+                    <div class="skills-container">
+                        @foreach (var skill in Model.GetKyNangChuyenMonList())
+                        {
+                            <span class="skill-badge technical">@skill</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h6><i class="fas fa-users text-success me-2"></i>Kỹ năng mềm</h6>
+                    <div class="skills-container">
+                        @foreach (var skill in Model.GetKyNangMemList())
+                        {
+                            <span class="skill-badge soft">@skill</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h6><i class="fas fa-language text-warning me-2"></i>Ngoại ngữ</h6>
+                    <div class="skills-container">
+                        @foreach (var lang in Model.GetNgoaiNguList())
+                        {
+                            <span class="skill-badge language">@lang</span>
+                        }
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sở thích & Mục tiêu -->
+            <section class="cv-section">
+                <h2 class="section-title"><i class="fas fa-heart"></i> Sở Thích</h2>
+                <div class="hobbies-container">
+                    @foreach (var hobby in Model.GetSoThichList())
+                    {
+                        <span class="hobby-badge">@hobby</span>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-8">
+            <!-- NCKH -->
+            @if (nckh.Any())
+            {
+                <section class="cv-section">
+                    <h2 class="section-title"><i class="fas fa-flask"></i> Nghiên Cứu Khoa Học</h2>
+                    @foreach (var item in nckh)
+                    {
+                        <div class="project-card research">
+                            <div class="project-header">
+                                <h5>@item.TenNhiemVu</h5>
+                                <span class="project-time"><i class="fas fa-clock"></i> @item.ThoiGian</span>
+                            </div>
+                            <p class="project-desc">@item.MoTa</p>
+                            <div class="project-details">
+                                <p><strong><i class="fas fa-tasks me-1"></i>Công việc:</strong> @item.CongViec</p>
+                                <p><strong><i class="fas fa-user-tag me-1"></i>Vai trò:</strong> @item.VaiTro</p>
+                                <p><strong><i class="fas fa-trophy me-1"></i>Kết quả:</strong> @item.KetQua</p>
+                            </div>
+                        </div>
+                    }
+                </section>
+            }
+
+            <!-- Dự án -->
+            @if (projects.Any())
+            {
+                <section class="cv-section">
+                    <h2 class="section-title"><i class="fas fa-project-diagram"></i> Dự Án</h2>
+                    <div class="projects-grid">
+                        @foreach (var proj in projects)
+                        {
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <h5>@proj.TenDuAn</h5>
+                                    <span class="project-time"><i class="fas fa-clock"></i> @proj.ThoiGian</span>
+                                </div>
+                                <p class="project-desc">@proj.MoTa</p>
+                                <div class="project-details">
+                                    <p><strong><i class="fas fa-cogs me-1"></i>Công nghệ:</strong> @proj.CongNghe</p>
+                                    <p><strong><i class="fas fa-user-tag me-1"></i>Vai trò:</strong> @proj.VaiTro</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+            }
+
+            <!-- Mục tiêu nghề nghiệp -->
+            <section class="cv-section">
+                <h2 class="section-title"><i class="fas fa-bullseye"></i> Mục Tiêu Nghề Nghiệp</h2>
+                <div class="goal-card">
+                    <p>@Model.MucTieuNgheNghiep</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Button -->
+<div class="edit-fab">
+    <a asp-action="Edit" class="btn btn-primary btn-lg rounded-circle shadow" title="Chỉnh sửa CV">
+        <i class="fas fa-edit"></i>
+    </a>
+</div>

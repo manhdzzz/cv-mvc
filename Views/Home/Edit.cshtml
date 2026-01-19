@@ -1,0 +1,381 @@
+@model trangcv.Models.CVModel
+@{
+    ViewData["Title"] = "Chỉnh sửa CV";
+    var nckh = ViewBag.NCKHList as List<trangcv.Models.ResearchProject> ?? new List<trangcv.Models.ResearchProject>();
+    var projects = ViewBag.ProjectList as List<trangcv.Models.Project> ?? new List<trangcv.Models.Project>();
+}
+
+<div class="edit-page">
+    <div class="page-header">
+        <h1><i class="fas fa-edit me-2"></i>Chỉnh Sửa CV</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Quay lại
+        </a>
+    </div>
+
+    <form asp-action="Edit" method="post" class="cv-form">
+        @Html.AntiForgeryToken()
+
+        <!-- 1. Thông tin cá nhân -->
+        <div class="form-section">
+            <h3 class="section-header"><i class="fas fa-user"></i> 1. Thông Tin Cá Nhân</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                        <input asp-for="HoTen" class="form-control" placeholder="Nguyễn Văn A" required />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">MSSV <span class="text-danger">*</span></label>
+                        <input asp-for="MSSV" class="form-control" placeholder="20110001" required />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Ngày sinh</label>
+                        <input asp-for="NgaySinh" class="form-control" placeholder="01/01/2002" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Lớp</label>
+                        <input asp-for="Lop" class="form-control" placeholder="20DTHD1" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Khoa</label>
+                        <input asp-for="Khoa" class="form-control" placeholder="Công nghệ Thông tin" />
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Link ảnh đại diện</label>
+                <input asp-for="AnhDaiDien" class="form-control" placeholder="/images/avatar.jpg" />
+                <small class="text-muted">Đặt ảnh vào wwwroot/images hoặc dùng URL trực tiếp</small>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="email@example.com" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại</label>
+                        <input asp-for="SoDienThoai" class="form-control" placeholder="0901234567" />
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Địa chỉ</label>
+                <input asp-for="DiaChi" class="form-control" placeholder="123 Đường ABC, Quận 1, TP.HCM" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Giới thiệu bản thân</label>
+                <textarea asp-for="GioiThieu" class="form-control" rows="3" placeholder="Mô tả ngắn về bản thân..."></textarea>
+            </div>
+        </div>
+
+        <!-- 2. Thông tin học vấn -->
+        <div class="form-section">
+            <h3 class="section-header"><i class="fas fa-graduation-cap"></i> 2. Thông Tin Học Vấn</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Trường đào tạo</label>
+                        <input asp-for="TruongDaoTao" class="form-control" placeholder="Trường Đại học ABC" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Ngành học</label>
+                        <input asp-for="NganhHoc" class="form-control" placeholder="Công nghệ Thông tin" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">GPA</label>
+                        <input asp-for="GPA" class="form-control" placeholder="3.5/4.0" />
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label">Chứng chỉ chuyên môn</label>
+                        <input asp-for="ChungChi" class="form-control" placeholder="AWS | Azure | TOEIC 750 (phân cách bằng |)" />
+                        <small class="text-muted">Phân cách các chứng chỉ bằng dấu |</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Thông tin kỹ năng -->
+        <div class="form-section">
+            <h3 class="section-header"><i class="fas fa-tools"></i> 3. Thông Tin Kỹ Năng</h3>
+            <div class="mb-3">
+                <label class="form-label">Kỹ năng chuyên môn (Technical Skills)</label>
+                <textarea asp-for="KyNangChuyenMon" class="form-control" rows="2" placeholder="C# | Python | JavaScript | SQL Server | Docker (phân cách bằng |)"></textarea>
+                <small class="text-muted">Ngôn ngữ lập trình, CSDL, Frameworks, Tools... (phân cách bằng |)</small>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Kỹ năng mềm (Soft Skills)</label>
+                <textarea asp-for="KyNangMem" class="form-control" rows="2" placeholder="Làm việc nhóm | Giao tiếp | Giải quyết vấn đề (phân cách bằng |)"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngoại ngữ</label>
+                <input asp-for="NgoaiNgu" class="form-control" placeholder="Tiếng Anh (TOEIC 750) | Tiếng Nhật (N4)" />
+            </div>
+        </div>
+
+        <!-- 4. NCKH & Dự án -->
+        <div class="form-section">
+            <h3 class="section-header"><i class="fas fa-flask"></i> 4. Kinh Nghiệm NCKH / Dự Án</h3>
+            
+            <!-- NCKH -->
+            <div class="subsection">
+                <h5><i class="fas fa-microscope me-2"></i>Nghiên cứu khoa học</h5>
+                <div id="nckh-container">
+                    @for (int i = 0; i < nckh.Count; i++)
+                    {
+                        <div class="dynamic-item" data-index="@i">
+                            <div class="item-header">
+                                <span>NCKH #@(i + 1)</span>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="removeNCKH(this)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2 nckh-ten" placeholder="Tên nhiệm vụ" value="@nckh[i].TenNhiemVu" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2 nckh-thoigian" placeholder="Thời gian" value="@nckh[i].ThoiGian" />
+                                </div>
+                            </div>
+                            <textarea class="form-control mb-2 nckh-mota" placeholder="Mô tả">@nckh[i].MoTa</textarea>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control mb-2 nckh-congviec" placeholder="Công việc" value="@nckh[i].CongViec" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control mb-2 nckh-vaitro" placeholder="Vai trò" value="@nckh[i].VaiTro" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control mb-2 nckh-ketqua" placeholder="Kết quả" value="@nckh[i].KetQua" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addNCKH()">
+                    <i class="fas fa-plus me-1"></i> Thêm NCKH
+                </button>
+            </div>
+
+            <!-- Dự án -->
+            <div class="subsection mt-4">
+                <h5><i class="fas fa-project-diagram me-2"></i>Dự án</h5>
+                <div id="duan-container">
+                    @for (int i = 0; i < projects.Count; i++)
+                    {
+                        <div class="dynamic-item" data-index="@i">
+                            <div class="item-header">
+                                <span>Dự án #@(i + 1)</span>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="removeDuAn(this)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2 duan-ten" placeholder="Tên dự án" value="@projects[i].TenDuAn" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2 duan-thoigian" placeholder="Thời gian" value="@projects[i].ThoiGian" />
+                                </div>
+                            </div>
+                            <textarea class="form-control mb-2 duan-mota" placeholder="Mô tả">@projects[i].MoTa</textarea>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2 duan-congnghe" placeholder="Công nghệ sử dụng" value="@projects[i].CongNghe" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2 duan-vaitro" placeholder="Vai trò" value="@projects[i].VaiTro" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addDuAn()">
+                    <i class="fas fa-plus me-1"></i> Thêm Dự án
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. Sở thích & Mục tiêu -->
+        <div class="form-section">
+            <h3 class="section-header"><i class="fas fa-heart"></i> 5. Sở Thích & Mục Tiêu Phát Triển</h3>
+            <div class="mb-3">
+                <label class="form-label">Sở thích cá nhân</label>
+                <input asp-for="SoThich" class="form-control" placeholder="Đọc sách | Chơi thể thao | Du lịch (phân cách bằng |)" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mục tiêu nghề nghiệp</label>
+                <textarea asp-for="MucTieuNgheNghiep" class="form-control" rows="3" placeholder="Mô tả mục tiêu nghề nghiệp trong tương lai..."></textarea>
+            </div>
+        </div>
+
+        <!-- Hidden fields for JSON -->
+        <input type="hidden" name="NCKHJson" id="NCKHJson" />
+        <input type="hidden" name="DuAnJson" id="DuAnJson" />
+
+        <!-- Submit -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg" onclick="prepareSubmit()">
+                <i class="fas fa-save me-2"></i>Lưu CV
+            </button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times me-2"></i>Hủy
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Add NCKH
+        function addNCKH() {
+            const container = document.getElementById('nckh-container');
+            const index = container.children.length;
+            const html = `
+                <div class="dynamic-item" data-index="${index}">
+                    <div class="item-header">
+                        <span>NCKH #${index + 1}</span>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeNCKH(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control mb-2 nckh-ten" placeholder="Tên nhiệm vụ" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control mb-2 nckh-thoigian" placeholder="Thời gian" />
+                        </div>
+                    </div>
+                    <textarea class="form-control mb-2 nckh-mota" placeholder="Mô tả"></textarea>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control mb-2 nckh-congviec" placeholder="Công việc" />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control mb-2 nckh-vaitro" placeholder="Vai trò" />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control mb-2 nckh-ketqua" placeholder="Kết quả" />
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+        // Remove NCKH
+        function removeNCKH(btn) {
+            btn.closest('.dynamic-item').remove();
+            updateNCKHNumbers();
+        }
+
+        // Update NCKH numbers
+        function updateNCKHNumbers() {
+            const items = document.querySelectorAll('#nckh-container .dynamic-item');
+            items.forEach((item, index) => {
+                item.querySelector('.item-header span').textContent = `NCKH #${index + 1}`;
+            });
+        }
+
+        // Add Dự án
+        function addDuAn() {
+            const container = document.getElementById('duan-container');
+            const index = container.children.length;
+            const html = `
+                <div class="dynamic-item" data-index="${index}">
+                    <div class="item-header">
+                        <span>Dự án #${index + 1}</span>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeDuAn(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control mb-2 duan-ten" placeholder="Tên dự án" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control mb-2 duan-thoigian" placeholder="Thời gian" />
+                        </div>
+                    </div>
+                    <textarea class="form-control mb-2 duan-mota" placeholder="Mô tả"></textarea>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control mb-2 duan-congnghe" placeholder="Công nghệ sử dụng" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control mb-2 duan-vaitro" placeholder="Vai trò" />
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+        // Remove Dự án
+        function removeDuAn(btn) {
+            btn.closest('.dynamic-item').remove();
+            updateDuAnNumbers();
+        }
+
+        // Update Dự án numbers
+        function updateDuAnNumbers() {
+            const items = document.querySelectorAll('#duan-container .dynamic-item');
+            items.forEach((item, index) => {
+                item.querySelector('.item-header span').textContent = `Dự án #${index + 1}`;
+            });
+        }
+
+        // Prepare submit - collect NCKH and DuAn data
+        function prepareSubmit() {
+            // Collect NCKH
+            const nckhList = [];
+            document.querySelectorAll('#nckh-container .dynamic-item').forEach(item => {
+                nckhList.push({
+                    TenNhiemVu: item.querySelector('.nckh-ten').value,
+                    MoTa: item.querySelector('.nckh-mota').value,
+                    ThoiGian: item.querySelector('.nckh-thoigian').value,
+                    CongViec: item.querySelector('.nckh-congviec').value,
+                    VaiTro: item.querySelector('.nckh-vaitro').value,
+                    KetQua: item.querySelector('.nckh-ketqua').value
+                });
+            });
+            document.getElementById('NCKHJson').value = JSON.stringify(nckhList);
+
+            // Collect DuAn
+            const duanList = [];
+            document.querySelectorAll('#duan-container .dynamic-item').forEach(item => {
+                duanList.push({
+                    TenDuAn: item.querySelector('.duan-ten').value,
+                    MoTa: item.querySelector('.duan-mota').value,
+                    ThoiGian: item.querySelector('.duan-thoigian').value,
+                    CongNghe: item.querySelector('.duan-congnghe').value,
+                    VaiTro: item.querySelector('.duan-vaitro').value
+                });
+            });
+            document.getElementById('DuAnJson').value = JSON.stringify(duanList);
+        }
+    </script>
+}

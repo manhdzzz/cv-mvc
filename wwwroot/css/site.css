@@ -1,0 +1,661 @@
+/* ===================================
+   TRANG CV CÁ NHÂN - DARK THEME
+   =================================== */
+
+/* CSS Variables for Dark Theme */
+:root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-card: #21262d;
+    --bg-card-hover: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --border-color: #30363d;
+    --accent-primary: #58a6ff;
+    --accent-secondary: #7c3aed;
+    --gradient-primary: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    --gradient-danger: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+}
+
+/* Base Styles */
+html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* Focus States */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--bg-primary), 0 0 0 0.25rem var(--accent-primary);
+}
+
+/* Sticky footer structure */
+main.flex-grow-1 {
+    flex: 1 0 auto;
+}
+
+/* ===================================
+   CV HERO SECTION
+   =================================== */
+.cv-hero {
+    background: var(--gradient-primary);
+    padding: 60px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.cv-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    background: var(--bg-card);
+}
+
+.avatar-img:hover {
+    transform: scale(1.05);
+}
+
+.hero-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-info {
+    margin-bottom: 15px;
+}
+
+.hero-info .badge {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+}
+
+.hero-department {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.hero-intro {
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.95;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.hero-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.contact-link {
+    color: white;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+    font-size: 0.95rem;
+}
+
+.contact-link:hover {
+    opacity: 1;
+    color: white;
+}
+
+.contact-link i {
+    margin-right: 5px;
+}
+
+/* ===================================
+   CV BODY
+   =================================== */
+.cv-body {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ===================================
+   SECTIONS
+   =================================== */
+.cv-section {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cv-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: var(--accent-primary);
+}
+
+/* Info Card */
+.info-card {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.info-card h5 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.info-card p {
+    color: var(--text-secondary);
+}
+
+.certificate-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.certificate-list li {
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+    color: var(--text-secondary);
+}
+
+.certificate-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+}
+
+/* ===================================
+   SKILLS
+   =================================== */
+.skill-category {
+    margin-bottom: 20px;
+}
+
+.skill-category:last-child {
+    margin-bottom: 0;
+}
+
+.skill-category h6 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.skill-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.skill-badge.technical {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.skill-badge.soft {
+    background: var(--gradient-success);
+    color: white;
+}
+
+.skill-badge.language {
+    background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+    color: white;
+}
+
+/* ===================================
+   HOBBIES
+   =================================== */
+.hobbies-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hobby-badge {
+    background: var(--gradient-warning);
+    color: #1f2937;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* ===================================
+   PROJECTS
+   =================================== */
+.projects-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.project-card {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid var(--accent-primary);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-primary);
+    transition: transform 0.2s;
+}
+
+.project-card:hover {
+    transform: translateX(5px);
+    background: var(--bg-card-hover);
+}
+
+.project-card.research {
+    border-left-color: #10b981;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.project-header h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.project-time {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    padding: 4px 12px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.project-desc {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.project-details p {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.project-details p:last-child {
+    margin-bottom: 0;
+}
+
+.project-details p strong {
+    color: var(--text-secondary);
+}
+
+/* ===================================
+   GOAL CARD
+   =================================== */
+.goal-card {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.goal-card p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ===================================
+   EDIT FAB
+   =================================== */
+.edit-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.edit-fab .btn {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: var(--gradient-primary);
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.edit-fab .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(74, 85, 104, 0.5);
+}
+
+/* ===================================
+   EDIT PAGE STYLES
+   =================================== */
+.edit-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.cv-form .form-section {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+.section-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-control:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Text muted for form hints */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Dynamic Items */
+.subsection {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.subsection h5 {
+    color: var(--text-primary);
+}
+
+.dynamic-item {
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: var(--accent-primary);
+}
+
+/* Form Actions */
+.form-actions {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.form-actions .btn {
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    margin: 0 10px;
+}
+
+.form-actions .btn-primary {
+    background: var(--gradient-primary);
+    border: none;
+}
+
+.form-actions .btn-primary:hover {
+    box-shadow: 0 5px 20px rgba(74, 85, 104, 0.5);
+}
+
+.form-actions .btn-secondary {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+/* ===================================
+   FOOTER - STICKY
+   =================================== */
+.footer {
+    flex-shrink: 0;
+    margin-top: auto !important;
+    background: var(--bg-secondary) !important;
+    border-top: 1px solid var(--border-color);
+    position: relative !important;
+    width: 100%;
+}
+
+/* ===================================
+   NAVBAR DARK THEME
+   =================================== */
+.navbar {
+    background: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand {
+    color: var(--text-primary) !important;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+}
+
+.nav-link:hover {
+    color: var(--text-primary) !important;
+}
+
+/* ===================================
+   ALERT STYLES
+   =================================== */
+.alert-success {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    color: #34d399;
+}
+
+/* ===================================
+   BADGE OVERRIDES
+   =================================== */
+.badge.bg-success {
+    background: var(--gradient-success) !important;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 768px) {
+    .cv-hero {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .hero-content .row {
+        flex-direction: column;
+    }
+
+    .avatar-img {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 20px;
+    }
+
+    .hero-name {
+        font-size: 1.8rem;
+    }
+
+    .hero-contact {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .page-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .project-header {
+        flex-direction: column;
+    }
+
+    .edit-fab {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .edit-fab .btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
+}
